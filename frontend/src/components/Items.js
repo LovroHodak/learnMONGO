@@ -4,6 +4,7 @@ export default function Items({ items }) {
   return (
     <div>
       <h2>Items</h2>
+      <p>Just a simple get request</p>
       <div>
         {items.map((item, i) => {
           return (

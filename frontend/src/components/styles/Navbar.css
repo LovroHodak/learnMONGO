@@ -1,11 +1,23 @@
 .navbar {
-    display: flex;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
     border: 2px solid red;
     background-color: orange;
 }
 
 .navbarLinks {
-    font-size: 3rem;
+    font-size: 2rem;
     text-decoration: none;
+}
+
+.art {
+    color: palegreen;
+}
+
+.ite {
+    color: rgb(151, 27, 66);
+}
+
+.aut {
+    color: rgb(51, 39, 21);
 }

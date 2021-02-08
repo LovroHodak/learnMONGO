@@ -33,6 +33,9 @@ app.use('/api', productsRoutes)
 const authorsRoutes = require('./routes/authors.routes')
 app.use('/api', authorsRoutes)
 
+const actorsRoutes = require('./routes/actors.routes')
+app.use('/api', actorsRoutes)
+
 //LISTEN
 const PORT = process.env.PORT || 5000;
 

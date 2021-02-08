@@ -9,7 +9,8 @@
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node backend/seederScript",
-    "author:import": "node backend/seederAuthorRef"
+    "author:import": "node backend/seederAuthorRef",
+    "actor:import": "node backend/seederActor"
   },
   "keywords": [],
   "author": "",
