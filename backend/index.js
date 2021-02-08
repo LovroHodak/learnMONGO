@@ -30,6 +30,10 @@ app.use(bodyParser.json()); //crucial for post requests from client
 const productsRoutes = require('./routes/products.routes')
 app.use('/api', productsRoutes)
 
+const authorsRoutes = require('./routes/authors.routes')
+app.use('/api', authorsRoutes)
+
+//LISTEN
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}, dirname ${__dirname}`))

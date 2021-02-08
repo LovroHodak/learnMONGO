@@ -1,0 +1,11 @@
+.navbar {
+    display: flex;
+    justify-content: space-evenly;
+    border: 2px solid red;
+    background-color: orange;
+}
+
+.navbarLinks {
+    font-size: 3rem;
+    text-decoration: none;
+}
