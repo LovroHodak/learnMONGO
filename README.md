@@ -1,3 +1,23 @@
+STRIPE!!
+BACKEND/ GLOBAL
+1. npm install --save stripe
+2. npm i path
+3. in Routes create stripe.routes.js
+4. add routes in index.js
+
+FRONTEND
+5. copy-paste in package.json - dependencies
+(    "@stripe/react-stripe-js": "^1.1.2",
+    "@stripe/stripe-js": "^1.11.0",)
+6.     
+
+
+
+
+
+
+
+
 1. created empty folder "" and open in VSC
 2. npm init -y
 3. mkdir frontend (creates frontend inside "learnDB")
@@ -89,3 +109,4 @@ FRONTEND
 11. npm run dev
 
 YOUR WEBSITE WORKS!!
+

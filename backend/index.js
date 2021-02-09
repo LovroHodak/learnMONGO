@@ -36,6 +36,10 @@ app.use('/api', authorsRoutes)
 const actorsRoutes = require('./routes/actors.routes')
 app.use('/api', actorsRoutes)
 
+const superHeroRoutes = require('./routes/superHero.routes')
+app.use('/api', superHeroRoutes)
+
+
 //LISTEN
 const PORT = process.env.PORT || 5000;
 

@@ -1,12 +1,12 @@
 .navbar {
     display: grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: auto auto auto;
     border: 2px solid red;
     background-color: orange;
 }
 
 .navbarLinks {
-    font-size: 2rem;
+    font-size: 1.4rem;
     text-decoration: none;
 }
 

@@ -5,6 +5,7 @@ export default function Authors({authors}) {
         <div>
             <h1>Authors</h1>
             <p>using two schemas in 1 model</p>
+            <p>get request</p>
             
             <div>
                 {authors.map((author, i) => {

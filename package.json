@@ -10,7 +10,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node backend/seederScript",
     "author:import": "node backend/seederAuthorRef",
-    "actor:import": "node backend/seederActor"
+    "actor:import": "node backend/seederActor",
+    "movie:import": "node backend/seederMovie"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +21,9 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.11.15"
+    "mongoose": "^5.11.15",
+    "path": "^0.12.7",
+    "stripe": "^8.134.0"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",

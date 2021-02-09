@@ -7,17 +7,17 @@ Movie.insertMany([
   {
     title: 'Pulp Fiction',
     year: 1999,
-    star: [{ type: Schema.Types.ObjectId, ref: 'actor' }]
+    star: '6021755e8853145168f1e6b8'
   },
   {
     title: 'Braveheart',
     year: 1995,
-    star: [{ type: Schema.Types.ObjectId, ref: 'actor' }]
+    star: '6021755e8853145168f1e6b7'
   },
   {
     title: 'Bourne',
     year: 2004,
-    star: [{ type: Schema.Types.ObjectId, ref: 'actor' }]
+    star: '6021755e8853145168f1e6b9'
   },
 ])
   .then(() => {

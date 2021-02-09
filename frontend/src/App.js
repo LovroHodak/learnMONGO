@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import { Switch, Route, withRouter } from "react-router-dom";
+import { Switch, Route, withRouter, useHistory } from "react-router-dom";
 import axios from "axios";
 import Items from "./components/Items";
 import Navbar from "./components/Navbar";
@@ -8,20 +8,26 @@ import Home from "./components/Home";
 import Authors from "./components/Authors";
 import Actors from "./components/Actors";
 import PopulatedMovies from "./components/PopulatedMovies";
-import Movies from "./components/Movies";
+import AddActor from "./components/AddActor";
+import ActorId from "./components/ActorId";
+import SuperHeros from "./components/SuperHeros";
+import AddSuperHeros from "./components/AddSuperHeros";
+import OneHero from "./components/OneHero";
+import EditSuperHero from "./components/EditSuperHero";
 
 function App() {
   const [items, setItems] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [actors, setActors] = useState([]);
-  const [movies, setMovies] = useState([]);
   const [populatedMovies, setPopulatedMovies] = useState([]);
+  const [superHeros, setSuperHeros] = useState([]);
+
+  let history = useHistory();
 
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/products", { withCredentials: true })
       .then((response) => {
-        console.log(response.data);
         setItems(response.data);
       })
       .catch((err) => {
@@ -31,7 +37,6 @@ function App() {
     axios
       .get("http://localhost:5000/api/authors", { withCredentials: true })
       .then((response) => {
-        console.log(response.data);
         setAuthors(response.data);
       })
       .catch((err) => {
@@ -41,18 +46,7 @@ function App() {
     axios
       .get("http://localhost:5000/api/actors", { withCredentials: true })
       .then((response) => {
-        console.log(response.data);
         setActors(response.data);
-      })
-      .catch((err) => {
-        console.log("this is error: ", err);
-      });
-
-    axios
-      .get("http://localhost:5000/api/movies", { withCredentials: true })
-      .then((response) => {
-        console.log(response.data);
-        setMovies(response.data);
       })
       .catch((err) => {
         console.log("this is error: ", err);
@@ -63,13 +57,79 @@ function App() {
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response.data);
         setPopulatedMovies(response.data);
       })
       .catch((err) => {
         console.log("this is error: ", err);
       });
+
+    axios
+      .get("http://localhost:5000/api/superHeros", { withCredentials: true })
+      .then((response) => {
+        setSuperHeros(response.data);
+      })
+      .catch((err) => {
+        console.log("this is error: ", err);
+      });
   }, []);
+
+  const handleAddActor = (e) => {
+    e.preventDefault();
+    console.log("here");
+
+    let newActor = {
+      name: e.target.name.value,
+      lastname: e.target.lastname.value,
+      age: e.target.age.value,
+    };
+    console.log(newActor);
+
+    axios.post("http://localhost:5000/api/addActor", newActor).then(() => {
+      console.log("success");
+      history.push("/");
+    });
+    setActors([newActor, ...actors]);
+  };
+
+  const handleAddSuperHeros = (e) => {
+    e.preventDefault();
+    console.log("here");
+
+    let newSuperHero = {
+      id: superHeros.length,
+      name: e.target.name.value,
+      strength: e.target.strength.value,
+      health: e.target.health.value,
+    };
+    console.log(newSuperHero);
+
+    axios
+      .post("http://localhost:5000/api/superHeros", newSuperHero)
+      .then(() => {
+        setSuperHeros([...superHeros, newSuperHero]);
+        console.log("success");
+        history.push("/superHeros");
+      });
+  };
+
+  const handleEditSH = (legend) => {
+    console.log("handleEditSH", legend);
+    axios.patch(`http://localhost:5000/api/superHeros/${legend.id}`, {
+      strength: legend.strength,
+      health: legend.health,
+      /* _id: legend._id */
+    })
+    .then(() => {
+      let updatedSuperHeros = superHeros.map((soldier) => {
+        if (soldier.id === legend.id){
+          soldier = legend
+        }
+        return soldier
+      })
+      setSuperHeros(updatedSuperHeros)
+      history.push("/superHeros");
+    })
+  };
 
   return (
     <div className="App">
@@ -105,16 +165,59 @@ function App() {
         />
         <Route
           exact
-          path="/movies"
-          render={() => {
-            return <Movies movies={movies} />;
-          }}
-        />
-        <Route
-          exact
           path="/populatedMovies"
           render={() => {
             return <PopulatedMovies populatedMovies={populatedMovies} />;
+          }}
+        />
+
+        <Route
+          exact
+          path="/addActor"
+          render={() => {
+            return <AddActor handleAddActor={handleAddActor} />;
+          }}
+        />
+
+        <Route
+          exact
+          path="/actors/:id"
+          render={(routeProps) => {
+            return <ActorId {...routeProps} />;
+          }}
+        />
+
+        <Route
+          exact
+          path="/superHeros"
+          render={() => {
+            return <SuperHeros superHeros={superHeros} />;
+          }}
+        />
+
+        <Route
+          exact
+          path="/addSuperHeros"
+          render={() => {
+            return <AddSuperHeros handleAddSuperHeros={handleAddSuperHeros} />;
+          }}
+        />
+
+        <Route
+          exact
+          path="/superHeros/:id"
+          render={(routeProps) => {
+            return <OneHero {...routeProps} />;
+          }}
+        />
+
+        <Route
+          exact
+          path="/superHeros/:id/edit"
+          render={(routeProps) => {
+            return (
+              <EditSuperHero handleEditSH={handleEditSH} {...routeProps} />
+            );
           }}
         />
       </Switch>
