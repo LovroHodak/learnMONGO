@@ -96,7 +96,7 @@ function App() {
     console.log("here");
 
     let newSuperHero = {
-      id: superHeros.length,
+      id: superHeros[superHeros.length - 1].id + 1,
       name: e.target.name.value,
       strength: e.target.strength.value,
       health: e.target.health.value,
@@ -130,6 +130,24 @@ function App() {
       history.push("/superHeros");
     })
   };
+
+  const handleDeleteSH = (heroId) => {
+    console.log('handleDelete', heroId)
+    axios.delete(`http://localhost:5000/api/superHeros/${heroId}`)
+    .then(() => {
+      let filteredSuperHeros = superHeros.filter((hero) => {
+          return hero.id !== heroId
+      })
+      setSuperHeros(filteredSuperHeros)
+      history.push("/superHeros");
+
+      /* this.setState({
+        superHeros: filteredheros
+      }, () => {
+        this.props.history.push('/')
+      }) */
+  })
+  }
 
   return (
     <div className="App">
@@ -207,7 +225,7 @@ function App() {
           exact
           path="/superHeros/:id"
           render={(routeProps) => {
-            return <OneHero {...routeProps} />;
+            return <OneHero {...routeProps} handleDeleteSH={handleDeleteSH} />;
           }}
         />
 

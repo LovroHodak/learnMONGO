@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios' 
 import { Link } from 'react-router-dom'
 
-export default function OneHero({match}) {
+export default function OneHero({match, handleDeleteSH}) {
 
     const [hero, setHero] = useState({})
 
@@ -24,6 +24,7 @@ export default function OneHero({match}) {
                 <p>Strength: {hero.strength}</p>
                 <p>Health: {hero.health}</p>
                 <button><Link to={`/superHeros/${hero.id}/edit`}>Edit</Link></button>
+                <button onClick={() => handleDeleteSH(hero.id)}>Delete</button>
             </div>
         </div>
     )

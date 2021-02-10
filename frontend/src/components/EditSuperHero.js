@@ -31,11 +31,12 @@ export default function EditSuperHero({match, handleEditSH}) {
 
     return (
             <div>
-            <label>Strength: </label>
-                <input type='text' onChange={handleStrength} value={hero.strength} /> 
-                <label>Health: </label>
-                <input type='text' onChange={handleHealth} value={hero.health} /> 
-                <button onClick={() => handleEditSH(hero)  } >Edit</button>
+                <p>{hero.name}</p>
+                <label>Strength: 
+                <input type='text' onChange={handleStrength} value={hero.strength} /> </label>
+                <label>Health: 
+                <input type='text' onChange={handleHealth} value={hero.health} /> </label>
+                <button type='submit' onClick={() => handleEditSH(hero)  } >Edit</button>
             </div>
     )
 }
