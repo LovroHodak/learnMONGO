@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios' 
 import { Link } from 'react-router-dom'
 
-export default function OneHero({match, handleDeleteSH}) {
+export default function OneHero({match, handleDeleteSH, increaseEditSHStrength}) {
 
     const [hero, setHero] = useState({})
 
@@ -14,7 +14,20 @@ export default function OneHero({match, handleDeleteSH}) {
             console.log('response.data: ', response.data)
             setHero(response.data)
         })
+
+        
+
     }, [])
+
+    const increaseStrength = () => {
+        console.log('match.params', match.params)
+        
+        setHero({strength: hero.strength + 1, name: hero.name, health: hero.health - 1})
+        
+        console.log('hero.strength', hero.strength)
+        
+        increaseEditSHStrength({strength: hero.strength, name: hero.name, health: hero.health, id: match.params.id})
+    }
 
     return (
         <div>
@@ -23,8 +36,14 @@ export default function OneHero({match, handleDeleteSH}) {
                 <p>Name: {hero.name}</p>
                 <p>Strength: {hero.strength}</p>
                 <p>Health: {hero.health}</p>
-                <button><Link to={`/superHeros/${hero.id}/edit`}>Edit</Link></button>
-                <button onClick={() => handleDeleteSH(hero.id)}>Delete</button>
+                <div>
+                    <button><Link to={`/superHeros/${hero.id}/edit`}>Edit</Link></button>
+                    <button onClick={() => handleDeleteSH(hero.id)}>Delete</button>
+                </div>
+                <div>
+                    <button onClick={(increaseStrength)}>Add Strength</button>
+                </div>
+                
             </div>
         </div>
     )

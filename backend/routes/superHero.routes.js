@@ -52,6 +52,8 @@ router.patch("/superHeros/:id", (req, res) => {
   console.log("req.params PATCH", req.params);
   console.log("req.body PATCH", req.body);
   const { strength, health } = req.body;
+  // options is used as 3rd param, to return updated value
+  const options = { new: true };
   SuperHeroModel.findOneAndUpdate(
     { id: req.params.id },
     { $set: { strength: strength, health: health } }

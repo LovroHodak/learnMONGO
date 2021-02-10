@@ -11,7 +11,8 @@
     "data:import": "node backend/seederScript",
     "author:import": "node backend/seederAuthorRef",
     "actor:import": "node backend/seederActor",
-    "movie:import": "node backend/seederMovie"
+    "movie:import": "node backend/seederMovie",
+    "test:import": "node backend/seederTest"
   },
   "keywords": [],
   "author": "",

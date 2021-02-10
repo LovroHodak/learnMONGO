@@ -1,16 +1,18 @@
 import React from "react";
+import { Link } from 'react-router-dom'
 
 export default function Items({ items }) {
   return (
     <div>
       <h2>Items</h2>
+      <button><Link to='/addProduct'>Create New product</Link></button>
       <p>Just a simple get request</p>
       <div>
         {items.map((item, i) => {
           return (
             <div key={i} style={{ border: "1px solid black" }}>
               <p>
-                <b>Id:</b> {item._id}
+                <b>_Id:</b> {item._id}
               </p>
               <p>
                 <b>Name:</b> {item.name}

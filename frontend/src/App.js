@@ -14,6 +14,7 @@ import SuperHeros from "./components/SuperHeros";
 import AddSuperHeros from "./components/AddSuperHeros";
 import OneHero from "./components/OneHero";
 import EditSuperHero from "./components/EditSuperHero";
+import AddProduct from "./AddProduct";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -73,6 +74,28 @@ function App() {
       });
   }, []);
 
+  //PRODUCTS
+  const handleAddProducts = (e) => {
+    e.preventDefault();
+    console.log("here");
+
+    let newProduct = {
+      name: e.target.name.value,
+      description: e.target.description.value,
+      price: e.target.price.value,
+      countInStock: e.target.countInStock.value,
+      imageUrl: e.target.imageUrl.value,
+    };
+    console.log(newProduct);
+
+    axios.post("http://localhost:5000/api/products", newProduct).then(() => {
+      setItems([...items, newProduct]);
+      console.log("success", newProduct._id);
+      history.push("/items");
+    });
+  };
+
+  // ACTORS
   const handleAddActor = (e) => {
     e.preventDefault();
     console.log("here");
@@ -91,6 +114,7 @@ function App() {
     setActors([newActor, ...actors]);
   };
 
+  // SUPER-HEROS
   const handleAddSuperHeros = (e) => {
     e.preventDefault();
     console.log("here");
@@ -114,40 +138,54 @@ function App() {
 
   const handleEditSH = (legend) => {
     console.log("handleEditSH", legend);
-    axios.patch(`http://localhost:5000/api/superHeros/${legend.id}`, {
-      strength: legend.strength,
-      health: legend.health,
-      /* _id: legend._id */
-    })
-    .then(() => {
-      let updatedSuperHeros = superHeros.map((soldier) => {
-        if (soldier.id === legend.id){
-          soldier = legend
-        }
-        return soldier
+    axios
+      .patch(`http://localhost:5000/api/superHeros/${legend.id}`, {
+        strength: legend.strength,
+        health: legend.health,
+        /* _id: legend._id */
       })
-      setSuperHeros(updatedSuperHeros)
-      history.push("/superHeros");
-    })
+      .then(() => {
+        let updatedSuperHeros = superHeros.map((soldier) => {
+          if (soldier.id === legend.id) {
+            soldier = legend;
+          }
+          return soldier;
+        });
+        setSuperHeros(updatedSuperHeros);
+        history.push("/superHeros");
+      });
+  };
+
+  const increaseEditSHStrength = (legend) => {
+    console.log("increaseEditSHStrength", legend);
+    axios
+      .patch(`http://localhost:5000/api/superHeros/${legend.id}`, {
+        strength: legend.strength,
+        health: legend.health,
+        name: legend.name,
+        id: legend.id,
+      })
+      .then(() => {
+        let updatedSuperHeros = superHeros.map((soldier) => {
+          if (soldier.id === legend.id) {
+            soldier = legend;
+          }
+          return soldier;
+        });
+        setSuperHeros(updatedSuperHeros);
+      });
   };
 
   const handleDeleteSH = (heroId) => {
-    console.log('handleDelete', heroId)
-    axios.delete(`http://localhost:5000/api/superHeros/${heroId}`)
-    .then(() => {
+    console.log("handleDelete", heroId);
+    axios.delete(`http://localhost:5000/api/superHeros/${heroId}`).then(() => {
       let filteredSuperHeros = superHeros.filter((hero) => {
-          return hero.id !== heroId
-      })
-      setSuperHeros(filteredSuperHeros)
+        return hero.id !== heroId;
+      });
+      setSuperHeros(filteredSuperHeros);
       history.push("/superHeros");
-
-      /* this.setState({
-        superHeros: filteredheros
-      }, () => {
-        this.props.history.push('/')
-      }) */
-  })
-  }
+    });
+  };
 
   return (
     <div className="App">
@@ -165,6 +203,13 @@ function App() {
           path="/items"
           render={() => {
             return <Items items={items} />;
+          }}
+        />
+        <Route
+          exact
+          path="/addProduct"
+          render={() => {
+            return <AddProduct handleAddProducts={handleAddProducts} />;
           }}
         />
         <Route
@@ -225,7 +270,13 @@ function App() {
           exact
           path="/superHeros/:id"
           render={(routeProps) => {
-            return <OneHero {...routeProps} handleDeleteSH={handleDeleteSH} />;
+            return (
+              <OneHero
+                {...routeProps}
+                handleDeleteSH={handleDeleteSH}
+                increaseEditSHStrength={increaseEditSHStrength}
+              />
+            );
           }}
         />
 
