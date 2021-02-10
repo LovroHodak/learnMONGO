@@ -95,6 +95,18 @@ function App() {
     });
   };
 
+  const updateAllProductsPrice = () => {
+    console.log('updateAllProductsPrice')
+    axios
+      .patch(`http://localhost:5000/api/products`, {
+        stock: 500
+      })
+      .then((response) => {
+        console.log('updateAllProductsPrice - response.data', response.data)
+        setItems(response.data)
+      });
+  }
+
   // ACTORS
   const handleAddActor = (e) => {
     e.preventDefault();
@@ -113,6 +125,7 @@ function App() {
     });
     setActors([newActor, ...actors]);
   };
+
 
   // SUPER-HEROS
   const handleAddSuperHeros = (e) => {
@@ -202,7 +215,7 @@ function App() {
           exact
           path="/items"
           render={() => {
-            return <Items items={items} />;
+            return <Items items={items} updateAllProductsPrice={updateAllProductsPrice} />;
           }}
         />
         <Route

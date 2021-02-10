@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from 'react-router-dom'
 
-export default function Items({ items }) {
+export default function Items({ items, updateAllProductsPrice }) {
   return (
     <div>
       <h2>Items</h2>
+      <button onClick={() => updateAllProductsPrice()}>Updatede all products price</button>
       <button><Link to='/addProduct'>Create New product</Link></button>
       <p>Just a simple get request</p>
       <div>
