@@ -2,10 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import './styles/Navbar.css'
 
-export default function Navbar({onLogout}) {
+export default function Navbar({onLogout, loggedInUser}) {
+
+  
+
   return (
     <nav className="navbar">
-    <button onClick={onLogout}>LogOut</button>
+    {loggedInUser ? <button onClick={onLogout}>LogOut</button> : null}
       <Link to="/" className="navbarLinks">1. Home</Link>
       <Link to="/items" className="navbarLinks ite">2. Items</Link>
       <Link to="/authors" className="navbarLinks aut">3. Authors</Link>

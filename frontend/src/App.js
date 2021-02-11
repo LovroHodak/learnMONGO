@@ -269,7 +269,7 @@ function App() {
   return (
     <div className="App">
       {loggedInUser ? <h5>User is: {loggedInUser.username}</h5> : null}
-      <Navbar  onLogout={handleLogOut} />
+      <Navbar  onLogout={handleLogOut} loggedInUser={loggedInUser}/>
       <Switch>
         <Route
           exact

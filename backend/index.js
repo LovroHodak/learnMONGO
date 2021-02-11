@@ -76,6 +76,8 @@ app.use('/api', superHeroRoutes)
 const authRoutes = require('./routes/auth.routes')
 app.use('/api', authRoutes);
 
+const stripeRoutes = require('./routes/stripe.routes')
+app.use('/api', stripeRoutes);
 
 //LISTEN
 const PORT = process.env.PORT || 5000;
