@@ -16,12 +16,20 @@ import OneHero from "./components/OneHero";
 import EditSuperHero from "./components/EditSuperHero";
 import AddProduct from "./AddProduct";
 
+import changedProducts from "./changedItems";
+import originalProducts from "./originalItems";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+
 function App() {
   const [items, setItems] = useState([]);
   const [authors, setAuthors] = useState([]);
   const [actors, setActors] = useState([]);
   const [populatedMovies, setPopulatedMovies] = useState([]);
   const [superHeros, setSuperHeros] = useState([]);
+  const [changedItemz] = useState(changedProducts);
+  const [originalItemz] = useState(originalProducts);
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
   let history = useHistory();
 
@@ -72,7 +80,65 @@ function App() {
       .catch((err) => {
         console.log("this is error: ", err);
       });
+
+    if (!loggedInUser) {
+      axios
+        .get("http://localhost:5000/api/user", { withCredentials: true })
+        .then((response) => {
+          console.log("new user");
+          setLoggedInUser(response.data);
+        });
+    }
   }, []);
+
+  // USER
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    const { username, email, password } = e.target;
+
+    axios
+      .post(
+        `http://localhost:5000/api/signup`,
+        {
+          username: username.value,
+          email: email.value,
+          password: password.value,
+        },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        setLoggedInUser(response.data);
+        history.push("/");
+      });
+  };
+
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    e.preventDefault();
+    const { email, password } = e.target;
+
+    axios
+      .post(
+        `http://localhost:5000/api/signin`,
+        {
+          email: email.value,
+          password: password.value,
+        },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        setLoggedInUser(response.data);
+        history.push("/");
+      });
+  };
+
+  const handleLogOut = (e) => {
+    axios
+      .post("http://localhost:5000/api/logout", {}, { withCredentials: true })
+      .then(() => {
+        setLoggedInUser(null);
+      });
+  };
 
   //PRODUCTS
   const handleAddProducts = (e) => {
@@ -96,16 +162,17 @@ function App() {
   };
 
   const updateAllProductsPrice = () => {
-    console.log('updateAllProductsPrice')
+    console.log("updateAllProductsPrice");
     axios
       .patch(`http://localhost:5000/api/products`, {
-        stock: 500
+        changedItemz,
+        //originalItemz
       })
       .then((response) => {
-        console.log('updateAllProductsPrice - response.data', response.data)
-        setItems(response.data)
+        console.log("updateAllProductsPrice - response.data", response.data);
+        setItems(response.data);
       });
-  }
+  };
 
   // ACTORS
   const handleAddActor = (e) => {
@@ -125,7 +192,6 @@ function App() {
     });
     setActors([newActor, ...actors]);
   };
-
 
   // SUPER-HEROS
   const handleAddSuperHeros = (e) => {
@@ -202,7 +268,8 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
+      {loggedInUser ? <h5>User is: {loggedInUser.username}</h5> : null}
+      <Navbar  onLogout={handleLogOut} />
       <Switch>
         <Route
           exact
@@ -215,7 +282,12 @@ function App() {
           exact
           path="/items"
           render={() => {
-            return <Items items={items} updateAllProductsPrice={updateAllProductsPrice} />;
+            return (
+              <Items
+                items={items}
+                updateAllProductsPrice={updateAllProductsPrice}
+              />
+            );
           }}
         />
         <Route
@@ -299,6 +371,26 @@ function App() {
           render={(routeProps) => {
             return (
               <EditSuperHero handleEditSH={handleEditSH} {...routeProps} />
+            );
+          }}
+        />
+
+<Route
+          exact
+          path="/sign-in"
+          render={(routeProps) => {
+            return (
+              <SignIn onSignIn={handleSignIn} {...routeProps} />
+            );
+          }}
+        />
+
+<Route
+          exact
+          path="/sign-up"
+          render={(routeProps) => {
+            return (
+              <SignUp onSignUp={handleSignUp} {...routeProps} />
             );
           }}
         />

@@ -5,7 +5,7 @@ export default function Items({ items, updateAllProductsPrice }) {
   return (
     <div>
       <h2>Items</h2>
-      <button onClick={() => updateAllProductsPrice()}>Updatede all products price</button>
+      <button onClick={() => updateAllProductsPrice(items)}>Updated all products price</button>
       <button><Link to='/addProduct'>Create New product</Link></button>
       <p>Just a simple get request</p>
       <div>
@@ -18,20 +18,20 @@ export default function Items({ items, updateAllProductsPrice }) {
               <p>
                 <b>Name:</b> {item.name}
               </p>
-              <p>
+              {/* <p>
                 <b>Description:</b> {item.description}
-              </p>
+              </p> */}
               <p>
                 <b>Price:</b> {item.price} €
               </p>
               <p>
                 <b>Stock:</b> {item.countInStock}
               </p>
-              <img
+              {/* <img
                 src={item.imageUrl}
                 alt={item.name}
                 style={{ width: "200px" }}
-              />
+              /> */}
             </div>
           );
         })}
